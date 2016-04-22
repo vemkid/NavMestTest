@@ -42,7 +42,20 @@ public class CanonController : MonoBehaviour {
         transform.Rotate(-xRot, yRot, 0f);
         */
 
-        //TouchUtil.GetTouch();
+        if(TouchUtil.GetTouch() != TouchInfo.None)
+        {
+            Vector3 _tPos = TouchUtil.GetTouchPosition();
+            if (_tPos.x >= Screen.width / 2)
+            {
+                //右半分をタッチ
+                transform.Rotate(0, rotSpeed, 0f);
+            }
+            else
+            {
+                //左半分をタッチ
+                transform.Rotate(0, -rotSpeed, 0f);
+            }
+        }
 
     }
 

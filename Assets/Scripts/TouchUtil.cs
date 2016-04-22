@@ -30,21 +30,18 @@ public static class TouchUtil
     /// <returns>タッチポジション。タッチされていない場合は (0, 0, 0)</returns>
     public static Vector3 GetTouchPosition()
     {
-        if (Application.isEditor)
+#if UNITY_EDITOR
+        TouchInfo touch = GetTouch();
+        if (touch != TouchInfo.None) { return Input.mousePosition; }
+#else
+        if (Input.touchCount > 0)
         {
-            TouchInfo touch = GetTouch();
-            if (touch != TouchInfo.None) { return Input.mousePosition; }
+            Touch touch = Input.GetTouch(0);
+            TouchPosition.x = touch.position.x;
+            TouchPosition.y = touch.position.y;
+            return TouchPosition;
         }
-        else
-        {
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                TouchPosition.x = touch.position.x;
-                TouchPosition.y = touch.position.y;
-                return TouchPosition;
-            }
-        }
+#endif
         return Vector3.zero;
     }
 
